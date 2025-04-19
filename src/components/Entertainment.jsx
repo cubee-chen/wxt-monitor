@@ -1,11 +1,9 @@
 // src/components/Entertainment.jsx
 import { useState, useEffect, useRef } from 'react';
 import RainAnimation from './animations/RainAnimation';
-import SunshineAnimation from './animations/SunshineAnimation';
 
 const Entertainment = () => {
   const [clickCount, setClickCount] = useState(0);
-  const [showSunshine, setShowSunshine] = useState(false);
   const [isRaining, setIsRaining] = useState(true);
   const buttonRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -68,7 +66,6 @@ const Entertainment = () => {
   return (
     <div className="entertainment-page">
       {isRaining ? <RainAnimation /> : null}
-      {showSunshine ? <SunshineAnimation /> : null}
       
       <div className="entertainment-content">
         <h2>Weather Magic</h2>
