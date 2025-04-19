@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import Entertainment from './components/Entertainment';
+import References from './components/References';
 import Footer from './components/Footer';
 import { fetchWeatherData } from './services/dataService';
 import './assets/styles/global.css';
@@ -47,15 +48,9 @@ function App() {
       <div className="app">
         <Header />
         
-        <nav className="app-nav">
-          <ul className="nav-links">
-            <li><Link to="/">Dashboard</Link></li>
-            <li><Link to="/entertainment">Entertainment</Link></li>
-          </ul>
-        </nav>
-        
         <Routes>
           <Route path="/entertainment" element={<Entertainment />} />
+          <Route path="/references" element={<References />} />
           <Route path="/" element={
             <>
               {loading && <div className="loading">Loading weather data...</div>}

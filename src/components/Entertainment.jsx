@@ -2,12 +2,11 @@
 import { useState, useEffect, useRef } from 'react';
 import RainAnimation from './animations/RainAnimation';
 import SunshineAnimation from './animations/SunshineAnimation';
-import ClickTimeChart from './ClickTimeChart';
 
 const Entertainment = () => {
   const [clickCount, setClickCount] = useState(0);
   const [showSunshine, setShowSunshine] = useState(false);
-  const [clickHistory, setClickHistory] = useState([]);
+  const [isRaining, setIsRaining] = useState(true);
   const buttonRef = useRef(null);
   const timeoutRef = useRef(null);
   const lastClickTimeRef = useRef(null);
@@ -22,6 +21,23 @@ const Entertainment = () => {
   const handleClick = () => {
     const currentTime = new Date();
     
+    // Create ripple effect on button
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    buttonRef.current.appendChild(ripple);
+    
+    const rect = buttonRef.current.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${currentTime.clientX - rect.left - size/2}px`;
+    ripple.style.top = `${currentTime.clientY - rect.top - size/2}px`;
+    
+    // Remove the ripple after animation completes
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+    
     // Check if this is a consecutive click (within 3 seconds)
     const isConsecutive = lastClickTimeRef.current && 
       (currentTime - lastClickTimeRef.current) < 3000;
@@ -34,51 +50,40 @@ const Entertainment = () => {
       setClickCount(prevCount => prevCount + 1);
     }
     
-    // Record this click in history
-    const newClickEvent = {
-      time: currentTime,
-      count: clickHistory.length + 1
-    };
-    setClickHistory(prev => [...prev, newClickEvent]);
-    
     // Update last click time
     lastClickTimeRef.current = currentTime;
 
-    // Check if we've reached 10 consecutive clicks
-    if (clickCount + 1 >= 10) {
-      setShowSunshine(true);
+    // Check if we've reached 5 consecutive clicks
+    if (clickCount + 1 >= 5) {
+      setIsRaining(false);
       setClickCount(0); // Reset click count
       
       // Set timeout to return to rain after 25 seconds
       timeoutRef.current = setTimeout(() => {
-        setShowSunshine(false);
+        setIsRaining(true);
       }, 25000);
     }
   };
 
   return (
     <div className="entertainment-page">
-      {showSunshine ? <SunshineAnimation /> : <RainAnimation />}
+      {isRaining ? <RainAnimation /> : null}
+      {showSunshine ? <SunshineAnimation /> : null}
       
       <div className="entertainment-content">
         <h2>Weather Magic</h2>
-        <p>Click the button 10 times in a row to change the weather!</p>
+        <p>Click the button 5 times in a row to stop the rain!</p>
         
         <button 
           ref={buttonRef}
           className="weather-button"
           onClick={handleClick}
         >
-          {showSunshine ? "☀️ Enjoying Sunshine!" : "🌧️ Make it Sunny!"}
+          {!isRaining ? "🌤️ Enjoying Clear Weather!" : "🌧️ Stop the Rain!"}
         </button>
         
         <div className="click-counter">
-          {clickCount > 0 && <p>Consecutive Clicks: {clickCount} / 10</p>}
-        </div>
-        
-        <div className="click-chart-container">
-          <h3>Click History</h3>
-          <ClickTimeChart clickHistory={clickHistory} />
+          {clickCount > 0 && <p>Consecutive Clicks: {clickCount} / 5</p>}
         </div>
       </div>
     </div>
