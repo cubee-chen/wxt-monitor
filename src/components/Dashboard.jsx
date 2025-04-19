@@ -25,7 +25,7 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h2>Weather Monitoring Dashboard</h2>
+        <h2>WXT 即時數據 @NTU</h2>
         <TimeRangeSelector
           selectedRange={selectedTimeRange}
           onChange={onTimeRangeChange}
@@ -49,66 +49,66 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
 
       <div className="charts-grid">
         <div className="chart-container temperature">
-          <h3>Temperature</h3>
+          <h3>溫度 (°C)</h3>
           <WeatherChart
             data={filteredData}
             dataKey="airtemp_Avg"
             color="#FF7043"
             unit="°C"
-            yAxisLabel="Temperature (°C)"
+            yAxisLabel="Temperature"
           />
         </div>
 
         <div className="chart-container humidity">
-          <h3>Humidity</h3>
+          <h3>相對濕度 (%)</h3>
           <WeatherChart
             data={filteredData}
             dataKey="relhumidity_Avg"
             color="#26C6DA"
             unit="%"
-            yAxisLabel="Humidity (%)"
+            yAxisLabel="Humidity"
           />
         </div>
 
         <div className="chart-container pressure">
-          <h3>Air Pressure</h3>
+          <h3>氣壓 (hPa)</h3>
           <WeatherChart
             data={filteredData}
             dataKey="airpressure_Avg"
             color="#7E57C2"
             unit="hPa"
-            yAxisLabel="Pressure (hPa)"
+            yAxisLabel="Pressure"
             chartType="bar" // Changed from line to bar
           />
         </div>
 
         <div className="chart-container rain">
-          <h3>Rain Intensity</h3>
+          <h3>降水強度 (mm/hr)</h3>
           <WeatherChart
             data={filteredData}
             dataKey="Rintensity_Tot"
             color="#42A5F5"
             unit="mm/h"
-            yAxisLabel="Rain Intensity (mm/h)"
+            yAxisLabel="Rain Intensity"
             chartType="bar"
           />
         </div>
 
         <div className="chart-container wind">
-          <h3>Wind Speed & Direction</h3>
+          <h3>風向風速 (m/s)</h3>
           <WeatherChart
             data={filteredData}
             dataKey="WS_ms_S_WVT"
             directionKey="WindDir_D1_WVT"
             color="#66BB6A"
             unit="m/s"
-            yAxisLabel="Wind Speed (m/s)"
+            yAxisLabel="Wind Speed"
             type="wind"
           />
         </div>
 
         <div className="chart-container battery">
-          <h3>Battery Status</h3>
+          <h3>電池狀態 (Volt)</h3>
           <BatteryStatus data={filteredData} />
         </div>
       </div>

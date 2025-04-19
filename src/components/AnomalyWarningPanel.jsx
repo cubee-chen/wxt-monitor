@@ -24,7 +24,7 @@ const AnomalyWarningPanel = ({ allWeatherData }) => {
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <h3>
-          Anomaly History 
+          歷史紀錄 | 異常值
           <span className="anomaly-count">({allAnomalies.length})</span> 
           <span className="expand-icon">{isExpanded ? '▼' : '►'}</span>
         </h3>

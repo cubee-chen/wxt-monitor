@@ -39,26 +39,24 @@
     margin-bottom: var(--spacing-lg);
   }
   
-  .weather-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border: none;
-    font-size: 1.2rem;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: var(--border-radius);
+  .wooden-fish-container {
+    display: inline-block;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
   }
   
-  .weather-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  .wooden-fish-container:hover {
+    transform: scale(1.05);
   }
   
-  .weather-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .wooden-fish {
+    max-width: 200px;
+    height: auto;
+    transition: transform 0.3s;
+  }
+  
+  .wooden-fish.clicked {
+    transform: scale(0.9);
   }
   
   .click-counter {

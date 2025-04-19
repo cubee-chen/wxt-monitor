@@ -4,12 +4,22 @@ import RainAnimation from './animations/RainAnimation';
 
 const Entertainment = () => {
   const [clickCount, setClickCount] = useState(0);
+  const [totalClicks, setTotalClicks] = useState(0);
   const [isRaining, setIsRaining] = useState(true);
-  const buttonRef = useRef(null);
   const timeoutRef = useRef(null);
   const lastClickTimeRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
+    // Load wooden fish image
+    const woodenFishImage = new Image();
+    woodenFishImage.src = "https://fish.leixf.cn/document.querySelector('#center > div.wooden-fish')";
+    woodenFishImage.onload = () => {
+      if (imageRef.current) {
+        imageRef.current.src = woodenFishImage.src;
+      }
+    };
+    
     // Clear timeout on unmount
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -18,23 +28,6 @@ const Entertainment = () => {
 
   const handleClick = () => {
     const currentTime = new Date();
-    
-    // Create ripple effect on button
-    const ripple = document.createElement('span');
-    ripple.classList.add('ripple');
-    buttonRef.current.appendChild(ripple);
-    
-    const rect = buttonRef.current.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${currentTime.clientX - rect.left - size/2}px`;
-    ripple.style.top = `${currentTime.clientY - rect.top - size/2}px`;
-    
-    // Remove the ripple after animation completes
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
     
     // Check if this is a consecutive click (within 3 seconds)
     const isConsecutive = lastClickTimeRef.current && 
@@ -47,6 +40,9 @@ const Entertainment = () => {
       // Increment click count
       setClickCount(prevCount => prevCount + 1);
     }
+    
+    // Always increment total clicks
+    setTotalClicks(prevTotal => prevTotal + 1);
     
     // Update last click time
     lastClickTimeRef.current = currentTime;
@@ -61,6 +57,16 @@ const Entertainment = () => {
         setIsRaining(true);
       }, 25000);
     }
+    
+    // Add click animation effect
+    if (imageRef.current) {
+      imageRef.current.classList.add('clicked');
+      setTimeout(() => {
+        if (imageRef.current) {
+          imageRef.current.classList.remove('clicked');
+        }
+      }, 300);
+    }
   };
 
   return (
@@ -68,19 +74,20 @@ const Entertainment = () => {
       {isRaining ? <RainAnimation /> : null}
       
       <div className="entertainment-content">
-        <h2>Weather Magic</h2>
-        <p>Click the button 5 times in a row to stop the rain!</p>
+        <h2>歡迎一起來積功德</h2>
+        <p>點擊 OIIA 超過 5 次可以讓雨停！</p>
         
-        <button 
-          ref={buttonRef}
-          className="weather-button"
-          onClick={handleClick}
-        >
-          {!isRaining ? "🌤️ Enjoying Clear Weather!" : "🌧️ Stop the Rain!"}
-        </button>
+        <div className="wooden-fish-container" onClick={handleClick}>
+          <img 
+            ref={imageRef}
+            className="wooden-fish"
+            src="/oiia.gif"
+            alt="oiia"
+          />
+        </div>
         
         <div className="click-counter">
-          {clickCount > 0 && <p>Consecutive Clicks: {clickCount} / 5</p>}
+          <p>總點擊次數: {totalClicks}</p>
         </div>
       </div>
     </div>

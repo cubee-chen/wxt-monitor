@@ -2,15 +2,15 @@
 
 const TimeRangeSelector = ({ selectedRange, onChange }) => {
     const ranges = [
-      { value: '24h', label: 'Last 24 Hours' },
-      { value: '3d', label: 'Last 3 Days' },
-      { value: '1w', label: 'Last Week' },
-      { value: '1m', label: 'Last Month' }
+      { value: '24h', label: '過去 24 小時' },
+      { value: '3d', label: '過去 3 天' },
+      { value: '1w', label: '過去 1 週' },
+      { value: '1m', label: '過去 1 個月' }
     ];
   
     return (
       <div className="time-range-selector">
-        <span className="selector-label">Time Range:</span>
+        <span className="selector-label">選擇的時段區間：</span>
         <div className="selector-buttons">
           {ranges.map(range => (
             <button

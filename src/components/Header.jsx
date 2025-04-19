@@ -7,14 +7,14 @@ const Header = () => {
       <div className="header-content">
         <div className="logo">
           <span className="logo-icon">☁️</span>
-          <h1>Real-Time Weather Monitor</h1>
+          <h1>NTU AS 測站監控平台</h1>
         </div>
         
         <nav className="main-nav">
           <ul className="nav-links">
-            <li><Link to="/">Dashboard</Link></li>
-            <li className="nav-right"><Link to="/entertainment">Entertainment</Link></li>
-            <li><Link to="/references">References</Link></li>
+            <li><Link to="/">即時數據</Link></li>
+            <li className="nav-right"><Link to="/entertainment">積功德</Link></li>
+            <li><Link to="/references">參考資料</Link></li>
           </ul>
         </nav>
         
