@@ -1,0 +1,80 @@
+/* src/assets/styles/entertainment.css */
+
+.entertainment-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  
+  .weather-animation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  
+  .entertainment-content {
+    position: relative;
+    z-index: 10;
+    padding: var(--spacing-lg);
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-top: var(--spacing-xl);
+    text-align: center;
+  }
+  
+  .entertainment-content h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 2rem;
+  }
+  
+  .entertainment-content p {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .weather-button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .weather-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .weather-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .click-counter {
+    margin: var(--spacing-md) 0;
+    font-weight: bold;
+    color: var(--primary-color);
+    min-height: 1.5rem;
+  }
+  
+  .click-chart-container {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid #eee;
+  }
+  
+  .click-chart-container h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+  }
