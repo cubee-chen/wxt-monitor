@@ -118,7 +118,7 @@ const WeatherChart = ({
     const padding = range > 0 ? range * 0.15 : 0.5;
 
     return [Math.max(0, min - padding), max + padding];
-  };
+};
 
   // Modify wind direction data to display arrows on a straight line
   const modifyWindData = () => {
@@ -135,6 +135,14 @@ const WeatherChart = ({
 
       return newItem;
     });
+  };
+
+  // Dynamically adjust arrow interval based on data length
+  const getArrowInterval = (dataLength) => {
+    if (dataLength <= 730) return 5;  // 24h
+    if (dataLength <= 2200) return 15; // 3d
+    if (dataLength <= 5200) return 35; // 1w
+    return 140;                        // 1m
   };
 
   // Custom component to render direction arrows all on the same horizontal line
@@ -159,8 +167,11 @@ const WeatherChart = ({
   if (type === "wind") {
     // Modified wind data with fixed position for arrows
     const modifiedData = modifyWindData();
-    const arrowInterval = 5; // draw one arrow every 5 points
+    // const arrowInterval = 5; // draw one arrow every 5 points
+    const arrowInterval = getArrowInterval(modifiedData.length); 
     const arrowData = modifiedData.filter((_, i) => i % arrowInterval === 0);
+
+    
 
     // Enhanced wind chart with direction arrows on the same horizontal line
     return (

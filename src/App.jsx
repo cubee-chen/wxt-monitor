@@ -22,6 +22,10 @@ function App() {
         setLoading(true);
         const data = await fetchWeatherData();
         setWeatherData(data);
+        
+        // debug line
+        // console.log('Weather data loaded:', data);
+
         setError(null);
       } catch (err) {
         setError('Failed to fetch weather data. Please try again later.');

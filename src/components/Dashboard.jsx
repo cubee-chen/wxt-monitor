@@ -17,6 +17,9 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
     const filtered = getDataByTimeRange(weatherData, selectedTimeRange);
     setFilteredData(filtered);
 
+    //debug line
+    console.log("Filtered Data length", filtered.length);
+
     // Detect anomalies in the filtered data
     const detectedAnomalies = detectAnomalies(filtered);
     setAnomalies(detectedAnomalies);
@@ -55,7 +58,7 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
             dataKey="airtemp_Avg"
             color="#FF7043"
             unit="°C"
-            yAxisLabel="Temperature"
+            yAxisLabel=""
           />
         </div>
 
@@ -66,7 +69,7 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
             dataKey="relhumidity_Avg"
             color="#26C6DA"
             unit="%"
-            yAxisLabel="Humidity"
+            yAxisLabel=""
           />
         </div>
 
@@ -77,7 +80,7 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
             dataKey="airpressure_Avg"
             color="#7E57C2"
             unit="hPa"
-            yAxisLabel="Pressure"
+            yAxisLabel=""
             chartType="bar" // Changed from line to bar
           />
         </div>
@@ -89,7 +92,7 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
             dataKey="Rintensity_Tot"
             color="#42A5F5"
             unit="mm/h"
-            yAxisLabel="Rain Intensity"
+            yAxisLabel=""
             chartType="bar"
           />
         </div>
@@ -98,11 +101,13 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
           <h3>風向風速 (m/s)</h3>
           <WeatherChart
             data={filteredData}
-            dataKey="WS_ms_S_WVT"
-            directionKey="WindDir_D1_WVT"
+            // dataKey="WS_ms_S_WVT"
+            dataKey="Wsavg_Avg"
+            // directionKey="WindDir_D1_WVT"
+            directionKey="wdavg_Avg"
             color="#66BB6A"
             unit="m/s"
-            yAxisLabel="Wind Speed"
+            yAxisLabel=""
             type="wind"
           />
         </div>
