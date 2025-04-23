@@ -13,7 +13,9 @@ import {
   Scatter,
 } from "recharts";
 import { format } from "date-fns";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import LoadingNotification from './LoadingNotification';
+import { processChartData } from "../utils/dataProcessor";
 
 // Custom renderer for wind direction arrows
 const WindDirectionArrow = ({ cx, cy, direction, windSpeed }) => {
@@ -54,10 +56,24 @@ const WeatherChart = ({
   yAxisLabel,
   chartType = "line",
   type = "standard",
+  timeRange,
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
   const chartRef = useRef(null);
 
-  if (!data || data.length === 0) {
+  // Memoize processed data with loading state
+  const processedData = useMemo(() => {
+    setIsProcessing(true);
+    const result = processChartData(data, timeRange, dataKey);
+    setIsProcessing(false);
+    return result;
+  }, [data, timeRange, dataKey]);
+
+  if (isProcessing && (timeRange === '1m' || timeRange === '1w' || timeRange === '3d')) {
+    return <LoadingNotification timeRange={timeRange} />;
+  }
+
+  if (!processedData || processedData.length === 0) {
     return <div className="no-data">No data available</div>;
   }
 
@@ -102,9 +118,14 @@ const WeatherChart = ({
 
   // Calculate Y-axis domain to make chart more readable
   const calculateYDomain = () => {
-    if (!data || data.length === 0) return [0, 1];
+    if (!processedData || processedData.length === 0) return [0, 1];
 
-    const values = data
+    // Special handling for humidity data
+    if (dataKey === 'relhumidity_Avg') {
+      return [0, 100]; // Force humidity scale to 0-100%
+    }
+
+    const values = processedData
       .map((item) => item[dataKey])
       .filter((value) => value !== undefined && value !== null);
 
@@ -118,10 +139,10 @@ const WeatherChart = ({
     const padding = range > 0 ? range * 0.15 : 0.5;
 
     return [Math.max(0, min - padding), max + padding];
-};
+  };
 
   // Modify wind direction data to display arrows on a straight line
-  const modifyWindData = () => {
+  const modifyWindData = (data) => {
     if (type !== "wind") return data;
 
     return data.map((item) => {
@@ -139,10 +160,10 @@ const WeatherChart = ({
 
   // Dynamically adjust arrow interval based on data length
   const getArrowInterval = (dataLength) => {
-    if (dataLength <= 730) return 5;  // 24h
+    if (dataLength <= 730) return 5; // 24h
     if (dataLength <= 2200) return 15; // 3d
     if (dataLength <= 5200) return 35; // 1w
-    return 140;                        // 1m
+    return 140; // 1m
   };
 
   // Custom component to render direction arrows all on the same horizontal line
@@ -166,12 +187,9 @@ const WeatherChart = ({
   // Render appropriate chart based on type
   if (type === "wind") {
     // Modified wind data with fixed position for arrows
-    const modifiedData = modifyWindData();
-    // const arrowInterval = 5; // draw one arrow every 5 points
-    const arrowInterval = getArrowInterval(modifiedData.length); 
+    const modifiedData = modifyWindData(processedData);
+    const arrowInterval = getArrowInterval(modifiedData.length);
     const arrowData = modifiedData.filter((_, i) => i % arrowInterval === 0);
-
-    
 
     // Enhanced wind chart with direction arrows on the same horizontal line
     return (
@@ -186,7 +204,9 @@ const WeatherChart = ({
             />
             <YAxis
               yAxisId="left"
-              domain={calculateYDomain()}
+              domain={
+                dataKey === "Rel_Humidity" ? [0, "auto"] : calculateYDomain()
+              }
               label={{ value: yAxisLabel, angle: -90, position: "insideLeft" }}
             />
             <YAxis
@@ -230,7 +250,7 @@ const WeatherChart = ({
     // Render a bar chart
     return (
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
+        <BarChart data={processedData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="TIMESTAMP"
@@ -238,7 +258,9 @@ const WeatherChart = ({
             minTickGap={30}
           />
           <YAxis
-            domain={calculateYDomain()}
+            domain={
+              dataKey === "Rintensity_Tot" ? [0, "auto"] : calculateYDomain()
+            }
             label={{ value: yAxisLabel, angle: -90, position: "insideLeft" }}
           />
           <Tooltip content={renderCustomTooltip} />
@@ -250,7 +272,7 @@ const WeatherChart = ({
     // Default line chart
     return (
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+        <LineChart data={processedData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="TIMESTAMP"

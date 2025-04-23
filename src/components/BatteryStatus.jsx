@@ -77,7 +77,7 @@ import {
                 Math.min(11.5, Math.floor(Math.min(...data.map(d => d.batt_volt_Min || Infinity)) * 10) / 10),
                 Math.max(14, Math.ceil(Math.max(...data.map(d => d.batt_volt_Min || 0)) * 10) / 10)
               ]}
-              label={{ value: "Battery Voltage (V)", angle: -90, position: 'insideLeft' }}
+              label={{ value: "", angle: -90, position: 'insideLeft' }}
             />
             <Tooltip content={renderCustomTooltip} />
             <ReferenceLine y={CRITICAL_LEVEL} stroke="red" strokeDasharray="3 3">

@@ -290,6 +290,20 @@
     color: #888;
     font-style: italic;
   }
+
+  .loading-notification {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+  }
+  
+  .loading-notification p {
+    margin: var(--spacing-sm) 0;
+    color: var(--primary-color);
+  }
   
   /* Footer Styles */
   .app-footer {

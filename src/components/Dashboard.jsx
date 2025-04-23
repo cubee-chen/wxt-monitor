@@ -12,6 +12,14 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [anomalies, setAnomalies] = useState([]);
 
+  // Debug line to check filtered data
+  useEffect(() => {
+    console.log("Wind Direction Data:", filteredData.map(d => ({
+      timestamp: d.timestamp,
+      direction: d.wdavg_Avg
+    })));
+  }, [filteredData]);
+
   useEffect(() => {
     // Filter data based on time range
     const filtered = getDataByTimeRange(weatherData, selectedTimeRange);
@@ -103,8 +111,8 @@ const Dashboard = ({ weatherData, selectedTimeRange, onTimeRangeChange }) => {
             data={filteredData}
             // dataKey="WS_ms_S_WVT"
             dataKey="Wsavg_Avg"
-            // directionKey="WindDir_D1_WVT"
-            directionKey="wdavg_Avg"
+            directionKey="WindDir_D1_WVT"
+            // directionKey="wdavg_Avg"
             color="#66BB6A"
             unit="m/s"
             yAxisLabel=""
