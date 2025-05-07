@@ -280,7 +280,9 @@ const WeatherChart = ({
             minTickGap={30}
           />
           <YAxis
-            domain={calculateYDomain()}
+            domain={
+              (dataKey === "Temperature" || dataKey === "Rel_Humidity") ? [0, "auto"] : calculateYDomain()
+            }
             label={{ value: yAxisLabel, angle: -90, position: "insideLeft" }}
           />
           <Tooltip content={renderCustomTooltip} />
